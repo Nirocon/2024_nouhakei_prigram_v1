@@ -5,12 +5,12 @@ import threading
 event = threading.Event()
 
 def main():
-    ser = serial.Serial('COM6', 9600, timeout=3) # COM3ポートを9600bpsで開く
+    ser = serial.Serial('COM3', 9600, timeout=3) # COM3ポートを9600bpsで開く
     input = ""
     x, y = [], []
 
     while not event.is_set():
-        input += ser.read(10).decode() # 10バイト読み込み
+        input += ser.read(10).decode(errors="ignore") # 10バイト読み込み
 
         if len(input.split('\n')) > 2:
             for i in input.split('\n')[:-1]: # 最後の\nを除く
