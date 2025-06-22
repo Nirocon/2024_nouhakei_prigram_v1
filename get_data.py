@@ -20,12 +20,13 @@ def main():
         while not event.is_set():
             input += ser.read(10).decode(errors="ignore") # 10バイト読み込み
 
-            if len(input.split('\n')) > 2:
-                for i in input.split('\n')[:-1]: # 最後の\nを除く
-                    print(i) # 文字列を出力
+            if "\n" in input:
+                lines = input.split('\n')
+                for line in lines[:-1]: # 最後の\nを除く
+                    print(line) # 文字列を出力
 
                     try:
-                        parts = i.strip().split(',')
+                        parts = line.strip().split(',')
 
                         if len(parts) != 2:
                             raise ValueError("Invalid format")
@@ -42,10 +43,10 @@ def main():
                             writer.writerow([removed_y, removed_x]) # 電圧, 時間で保存
 
                     except Exception as e:
-                        print(f"[Warning] スキップされた行: '{i}' → {e}")
+                        print(f"[Warning] スキップされた行: '{line}' → {e}")
                         continue
 
-                input = input.split('\n')[-1] # 最後の\n以降をinputに戻す
+                input = lines[-1] # 最後の\n以降をinputに戻す
                 
                 plt.clf()
                 plt.plot(x, y) # グラフを描画
