@@ -7,7 +7,11 @@ import csv
 event = threading.Event()
 
 def main():
-    ser = serial.Serial('/dev/cu.usbserial-0001', 9600, timeout=3) # COM3ポートを9600bpsで開く
+    try:
+        ser = serial.Serial('/dev/cu.usbserial-0001', 9600, timeout=3) # COM3ポートを9600bpsで開く
+    except Exception as e:
+        print(f"[ERROR] シリアル通信失敗: \n{e}")
+        return
     input_buf = ""
     x, y = [], []
     all_data = []
@@ -51,7 +55,7 @@ def main():
     plt.plot(x, y)
     plt.show(block=False)
     
-    input("Click [Enter] to quit.")
+    input("Click [Enter] to quit.\n")
     
     # ファイル名を年月日時分秒で作成
     filename = datetime.now().strftime("%Y%m%d_%H%M%S") + ".csv"
@@ -60,12 +64,12 @@ def main():
             writer = csv.writer(f)
             writer.writerow(["voltage", "timestamp"])
             writer.writerows(all_data)
-        print(f"[INFO] 測定データを {filename} に保存しました。")
+        print(f"[INFO] 測定データを {filename} に保存しました。\n")
     except Exception as e:
-        print(f"[ERROR] ファイル保存失敗: {e}")    
+        print(f"[ERROR] ファイル保存失敗: \n{e}\n")    
 
 def stopper():
-    input("Click [Enter] to stop running.")
+    input("Click [Enter] to stop running.\n")
     event.set()
 
 if __name__ == "__main__":
