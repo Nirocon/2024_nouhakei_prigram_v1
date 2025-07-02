@@ -14,8 +14,10 @@ def main():
         return
     input_buf = ""
     x, y = [], []
+    header_x, header_y = "timestamp", "voltage"
     all_data = []
 
+    plt.ion() # インタラクティブモードに設定
     while not event.is_set():
         input_buf += ser.read(10).decode(errors="ignore") # 10バイト読み込み
 
@@ -48,10 +50,16 @@ def main():
 
             input_buf = lines[-1] # 最後の\n以降をinputに戻す
             
-            plt.clf()
+
+            plt.clf() # グラフをクリア
+            plt.xlabel(header_x)
+            plt.ylabel(header_y)
             plt.plot(x, y) # グラフを描画
             plt.pause(0.1)
     
+    plt.ioff()
+    plt.xlabel(header_x)
+    plt.ylabel(header_y)
     plt.plot(x, y)
     plt.show(block=False)
     
@@ -62,7 +70,7 @@ def main():
     try:
         with open(filename, 'w', newline='') as f:
             writer = csv.writer(f)
-            writer.writerow(["timestamp", "voltage"])
+            writer.writerow([header_x, header_y])
             writer.writerows(all_data)
         print(f"[INFO] 測定データを {filename} に保存しました。\n")
     except Exception as e:
