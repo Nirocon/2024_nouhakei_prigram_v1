@@ -36,7 +36,7 @@ def main():
                     x.append(timestamp)
                     y.append(voltage)
 
-                    all_data.append((voltage, timestamp))
+                    all_data.append((timestamp, voltage))
 
                     if len(x) > 300:
                         x.pop(0)
@@ -62,7 +62,7 @@ def main():
     try:
         with open(filename, 'w', newline='') as f:
             writer = csv.writer(f)
-            writer.writerow(["voltage", "timestamp"])
+            writer.writerow(["timestamp", "voltage"])
             writer.writerows(all_data)
         print(f"[INFO] 測定データを {filename} に保存しました。\n")
     except Exception as e:
