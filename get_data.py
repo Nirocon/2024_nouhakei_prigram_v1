@@ -19,8 +19,12 @@ def main():
 
     plt.ion() # インタラクティブモードに設定
     while not event.is_set():
-        input_buf += ser.read(100).decode(errors="ignore") # 100バイト読み込み
-
+        try:
+            input_buf += ser.read(50).decode(errors="ignore") # 50バイト読み込み
+        except Exception as e:
+            print(f"[WARNING] データ読み込み失敗: \n{e}")
+            continue
+        
         if "\n" in input_buf:
             lines = input_buf.split('\n')
             for line in lines[:-1]: # 最後の\nを除く
