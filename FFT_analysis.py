@@ -41,7 +41,7 @@ def main():
     header_x = "Amplitude"
     
     # フーリエ変換後の信号をプロットする
-    plt.plot(freq, amp)
+    plt.plot(freq[1:int(N/2)], amp[1:int(N/2)]) # 0Hzとナイキスト周波数以降を除く
     plt.xlabel(header_x)
     plt.ylabel(header_y)
     plt.show()
