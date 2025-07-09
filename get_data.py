@@ -8,7 +8,7 @@ event = threading.Event()
 
 def main():
     try:
-        ser = serial.Serial('COM3', 9600, timeout=3) # COM3ポートを9600bpsで開く
+        ser = serial.Serial('COM3', 115200, timeout=3) # COM3ポートを115200bpsで開く
     except Exception as e:
         print(f"[ERROR] シリアル通信失敗: \n{e}")
         return
@@ -20,7 +20,7 @@ def main():
     plt.ion() # インタラクティブモードに設定
     while not event.is_set():
         try:
-            input_buf += ser.read(50).decode(errors="ignore") # 50バイト読み込み
+            input_buf += ser.read(1000).decode(errors="ignore") # 1000バイト読み込み
         except Exception as e:
             print(f"[WARNING] データ読み込み失敗: \n{e}")
             continue
