@@ -22,5 +22,5 @@ void loop() {
   t = millis(); // 時間の取得
 
   Serial.printf("%d,%d\n", i, t); // 「(電位差),(時間ms)\n」で返す
-  delay(100);
+  delay(1);
 }
